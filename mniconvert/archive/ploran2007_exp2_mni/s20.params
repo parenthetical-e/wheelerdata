@@ -1,0 +1,30 @@
+# This is template, based on ./butterfly/S17
+
+set patid 	= s20 # ok
+
+############
+# structural
+############
+set mprs 	= (3)			# hi-res MP-RAGE study numbers; 192 ok
+set tse 	= (4)			# T2W scan (may be 3d); 35 ok
+
+#################
+# fMRI parameters
+#################
+set fstd	= (6 7 8 9 10 11 12 13 14 15) # 209 in each
+	##        (1 2 3  4  5  6  7  8  9  10) 
+	## fMRI study (series) number
+	## then the bold index (matching the intial preprocessing
+	## of this data).
+	## 
+	## We use the latter to decode which study
+	## the data belongs to, creating the fMRI run 
+	## labels below.
+	## 
+    # 20:{
+    #     "butterfly": [1,2,5,8,9],
+    #     "word": [3,4,6,7,10]
+    # },
+
+set irun 	= (1butterfly1 2butterfly2 3word1 4word2 5butterfly3 6word3 7word4 8butterfly4 9butterfly5 10word5)		
+	## rechecked

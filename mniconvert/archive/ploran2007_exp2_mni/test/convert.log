@@ -1,0 +1,11 @@
+[/Users/type/Code/mniconvert/test]
+Processing files in atlas
+	Ana: s4_mpr_n1_111_t88.4dfp
+	Ana: s4_mpr_n1_222_t88.4dfp
+	Converting s4_mpr_n1_111_t88.4dfp to nifti
+	Converting s4_mpr_n1_222_t88.4dfp to nifti
+Processing files in bold1butterfly1
+	Bold: s4_b1butterfly1_faln_dbnd_xr3d_MNI152_3mm.4dfp.txt
+	Converting s4_b1butterfly1_faln_dbnd_xr3d_MNI152_3mm.4dfp.txt to nifti
+Processing files in bold5word3
+Success.

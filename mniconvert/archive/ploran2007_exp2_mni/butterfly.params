@@ -1,0 +1,21 @@
+@ sorted	= 1
+set inpath	= $cwd				# directory containing study* subdirectories
+
+set target	= $REFDIR/711-2V
+
+#################
+# fMRI parameters
+#################
+@ go		= 1			# 0: test mode; 1: run mode;
+@ economy	= 5
+set Siemens_interleave	= 1		# enables correct interleave order
+set TR_vol	= 2.0		# in seconds
+set TR_slc	= 0.		# time per slice in seconds (0 => will be computed assuming even spacing)
+set imaflip	= 0		# 0 | x | y | xy
+@ epidir	= 0		# 0 for inf->sup (product sequence default); 1 for sup->inf acquisition (Erbil sequence);
+@ skip		= 0
+@ nx		= 64		# EPI matrix
+@ ny		= 64		# EPI matrix
+@ epi2atl	= 1		# 0: leave processed time series in EPI space; 1: transform to 333 space
+@ normode	= 0		# always disable frame-to-frame intesity stabilization in fcMRI preprocessing
+@ to_MNI152	= 1		# generate preprocessed data in MNI152 space (default 711-2B space)

@@ -1,4 +1,4 @@
-from fmrilearn.load import load_nifti
+import os
 
 # ----
 # Global pathing...

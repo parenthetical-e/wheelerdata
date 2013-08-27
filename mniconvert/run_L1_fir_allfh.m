@@ -1,4 +1,4 @@
-addpath('~/src/metaaccumulate/mniconvert/spm/')
+addpath('~/src/wheelerdata/mniconvert/spm/')
 
 DATAPATH = '/data/data2/meta_accumulate/fh'
 

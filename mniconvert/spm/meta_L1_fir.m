@@ -25,7 +25,7 @@ function meta_L1_fir(basepath,savename,func_name,nod_name,movement_name,tr,nslic
     % Get the nod data
     load(fullfile(data_path,nod_name))
             %% Creates names, onsets, durations - cell arrays
-    
+	
 	% SPM go!
 	spm('Defaults','fMRI');
 	spm_jobman('initcfg'); 
@@ -57,6 +57,8 @@ function meta_L1_fir(basepath,savename,func_name,nod_name,movement_name,tr,nslic
      
     % Setup each col in the design matrix
     for jj=1:size(names,2),
+		names{jj}
+		onset{jj}
         jobs{2}.stats{1}.fmri_spec.sess(1).cond(jj).name = names{jj};
         jobs{2}.stats{1}.fmri_spec.sess(1).cond(jj).onset = onsets{jj};
 

@@ -1,4 +1,4 @@
-function meta_L1_fir(basepath,savename,func_name,nod_name,movement_name,tr,nslice,event,cond_name,n_levels),
+function meta_L1_fir(basepath,savename,func_name,nod_name,movement_name,tr,nslice,cond_name,n_levels),
 % Run a Level 1 analysis.
 %
 % meta_L1(savename,func_name,nod_name,movement_name,tr,nslice,event)
@@ -14,17 +14,18 @@ function meta_L1_fir(basepath,savename,func_name,nod_name,movement_name,tr,nslic
 % <event> If is 1, set durations to 0. If 0, use nod_* durations.
 
 	% Intial var setup
+    firwindow = 11;
 	old_path = pwd;
-	data_path = fullfile(basepath);
+	data_path = fullfile(basepath)
     
 	% Create the dir for the model files, if necessary.
 	if exist(fullfile(data_path,savename),'dir') ~= 7,
-		mkdir(fullfile(data_path,savename));
+		mkdir(fullfile(data_path,savename))
 	end
 
     % Get the nod data
     load(fullfile(data_path,nod_name))
-            %% Creates names, onsets, durations - cell arrays
+        %% Creates names, onsets, durations - cell arrays
 	
 	% SPM go!
 	spm('Defaults','fMRI');
@@ -32,7 +33,7 @@ function meta_L1_fir(basepath,savename,func_name,nod_name,movement_name,tr,nslic
 		%% SPM8 only
 
 	clear jobs
-	
+
     % DIRECTORY SETUP
 	jobs{1}.util{1}.cdir.directory = cellstr(data_path);
 		%% set wd	
@@ -58,30 +59,21 @@ function meta_L1_fir(basepath,savename,func_name,nod_name,movement_name,tr,nslic
     % Setup each col in the design matrix
     for jj=1:size(names,2),
 		names{jj}
-		onset{jj}
+		onsets{jj}
         jobs{2}.stats{1}.fmri_spec.sess(1).cond(jj).name = names{jj};
         jobs{2}.stats{1}.fmri_spec.sess(1).cond(jj).onset = onsets{jj};
-
-        % Do events or epoch-like (or slow)
-        if event == 1,
-            jobs{2}.stats{1}.fmri_spec.sess(1).cond(jj).duration = 0;
-        elseif event == 0,
-            jobs{2}.stats{1}.fmri_spec.sess(1).cond(jj).duration = ...
-                    durations{jj};
-        else,
-            error('<event> must be 0 or 1.');
-        end
+        jobs{2}.stats{1}.fmri_spec.sess(1).cond(jj).duration = 5;
     end
 
     jobs{2}.stats{1}.fmri_spec.sess.hpf = 128;
     jobs{2}.stats{1}.fmri_spec.fact.name = cond_name;
     jobs{2}.stats{1}.fmri_spec.fact.levels = n_levels;
-    jobs{2}.stats{1}.fmri_spec.bases.fir.length = 24;
-    jobs{2}.stats{1}.fmri_spec.bases.fir.order = 16;
+    jobs{2}.stats{1}.fmri_spec.bases.fir.length = firwindow*tr;
+    jobs{2}.stats{1}.fmri_spec.bases.fir.order = firwindow;
     jobs{2}.stats{1}.fmri_spec.volt = 1;
-    jobs{2}.stats{1}.fmri_spec.global = 'Scaling';
+    jobs{2}.stats{1}.fmri_spec.global = 'None';
     jobs{2}.stats{1}.fmri_spec.mask = {''};
-    jobs{2}.stats{1}.fmri_spec.cvi = 'AR(1)'
+    jobs{2}.stats{1}.fmri_spec.cvi = 'AR(1)';
 
 	% Factorial info
 	% jobs{2}.stats{1}.fmri_spec.fact.name = cond_code

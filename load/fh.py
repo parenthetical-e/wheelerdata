@@ -1,4 +1,5 @@
 import os
+import pandas as pd
 
 # ----
 # Global pathing...
@@ -41,6 +42,33 @@ def get_roi_data_paths(roi):
         os.path.join(ROIPATH, roi+"_26.nii.gz"),
         os.path.join(ROIPATH, roi+"_27.nii.gz"),
         os.path.join(ROIPATH, roi+"_28.nii.gz")]
+
+
+def get_metapaths_containing(colname):
+    """Look through all known metadata for the colname,
+    return the corresponding metapaths
+
+    Note
+    ----
+    Metadata get_* methods are searched in the following order.  
+    The first match for colname is the one used.
+        Search order:
+        1. get_motor_metadata_paths(),
+        2. get_RT_metadata_paths(),
+        3. get_noise_metadata_paths()
+    """
+
+    allmetapaths = [
+        get_motor_metadata_paths(),
+        get_RT_metadata_paths(),
+        get_noise_metadata_paths()]
+
+    for paths in allmetapaths:
+        # Try only the first path....
+        if colname in pd.read_csv(paths[0]):
+            return paths
+    else:
+        raise KeyError("colname was not found")
 
 
 def get_RT_metadata_paths():

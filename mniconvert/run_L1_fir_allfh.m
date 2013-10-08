@@ -1,3 +1,6 @@
+clc;
+clear all;
+
 addpath('~/src/wheelerdata/mniconvert/spm/')
 
 DATAPATH = '/data/data2/meta_accumulate/fh'
@@ -17,7 +20,7 @@ for ii=1:size(Ss,2),
             %% Force removal of old runs 
     meta_L1_fir(datadir,savedir,'warfh.nii', ...
         ['fidl/nod_' NODS{ii} '_motor_EF.mat'], ...
-        'rp_fh0.txt',1.5,29,0,'resp',2)
+        'rp_fh0.txt',1.5,29,'resp',2)
 
     % ----
     disp('Calculating L1 noise')
@@ -26,7 +29,7 @@ for ii=1:size(Ss,2),
             %% Force removal of old runs 
     meta_L1_fir(datadir,savedir,'warfh.nii', ...
         ['fidl/nod_' NODS{ii} ...
-        '_noise_corr_EF.mat'],'rp_fh0.txt',1.5,29,0,'noise',6)
+        '_noise_corr_EF.mat'],'rp_fh0.txt',1.5,29,'noise',6)
 
     % ----
     disp('Calculating L1 reaction time')
@@ -35,7 +38,7 @@ for ii=1:size(Ss,2),
             %% Force removal of old runs 
     meta_L1_fir(datadir,savedir,'warfh.nii', ...
         ['fidl/nod_' NODS{ii} '_RT_corr_EF.mat'], ...
-        'rp_fh0.txt',1.5,29,0,'RT',4)
+        'rp_fh0.txt',1.5,29,'RT',4)
 end
 
 exit;

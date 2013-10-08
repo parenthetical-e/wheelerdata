@@ -1,3 +1,6 @@
+clc;
+clear all;
+
 addpath('~/src/wheelerdata/mniconvert/spm/')
 
 DATAPATH = '/data/data2/meta_accumulate/fh'
@@ -15,7 +18,7 @@ for ii=1:size(Ss,2),
             %% Force removal of old runs 
     meta_L1_fir(datadir,savedir,'warfh.nii', ...
         ['fidl/nod_' NODS{ii} '_stim_facehouse.mat'], ...
-        'rp_fh0.txt',1.5,29,0,'stim',2)
+        'rp_fh0.txt',1.5,29,'stim',2)
 end
 
 exit;

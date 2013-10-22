@@ -5,10 +5,12 @@ Usage: rfroinii_butterfly roifile
 import re
 import os
 import sys
-from roi.pre import join_time
 import nibabel as nb
-from metaaccumulate.data.nii import findallnii, masknii
-from metaaccumulate.data.load import load_roifile
+
+from roi.pre import join_time
+from fmrilearn.load import load_roifile
+from fmrilearn.preprocess.nii import findallnii
+from fmrilearn.preprocess.nii import masknii
 
 
 def create(args):
@@ -172,7 +174,7 @@ if __name__ == '__main__':
     path = os.getcwd()
     restart = True
     
-    ncore = 4
+    ncore = 3
         # Set ncore > 1 if you want to 
         # parallelize the roi extractions
     

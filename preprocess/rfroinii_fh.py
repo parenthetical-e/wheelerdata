@@ -5,10 +5,12 @@ Usage: roinii_fh roifile
 import re
 import os
 import sys
-from roi.pre import join_time
 import nibabel as nb
-from metaaccumulate.datatools.nii import findallnii, masknii
-from metaaccumulate.datatools.load import load_roifile
+
+from roi.pre import join_time
+from fmrilearn.load import load_roifile
+from fmrilearn.preprocess.nii import findallnii
+from fmrilearn.preprocess.nii import masknii
 
 
 def create(args):

@@ -89,3 +89,23 @@ class Wheelerdata(object):
         return mpaths
 
 
+    def get_metapaths_containing(self, name):
+        """Look through all known metadata for the colname,
+        return the corresponding metapaths
+
+        Note
+        ----
+        Metadata get_* methods are searched in the following order.  
+        The first match for colname is the one used.
+            Search order:
+            1. get_RT_metadata_paths(),
+        """
+
+        allmetapaths = [self.get_RT_metadata_paths(), ]
+
+        for paths in allmetapaths:
+            # Try only the first path....
+            if name in pd.read_csv(paths[0]):
+                return paths
+        else:
+            raise KeyError("{0} was not found".format(name))

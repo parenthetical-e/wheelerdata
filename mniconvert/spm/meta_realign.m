@@ -1,10 +1,6 @@
-function cr_realign(dir_path,func_names),
-% Realign *all* catreward functional data in <dir_path>.
+function meta_realign(dir_path,func_names),
+% Realign *all* functional data in <dir_path>.
 % cr_realign(dir_path, func_names) 
-%
-% Notes:
-% * Face/house info:
-%  - func_names: {'fh0' 'fh1' 'fh2' 'fh3' 'fh4' 'fh5' 'fh6'};
 
 	% SPM go!
 	spm('Defaults','fMRI');

@@ -1,17 +1,5 @@
-function cr_func(dir_path,func_name,tr,nslice,sliceorder,refslice,isovox),
+function meta_func(dir_path,func_name,tr,nslice,sliceorder,refslice,isovox),
 % Preprocess <func_name> in <dir_path>, using ana.nii to coregister.
-%
-% cr_func(dir_path,func_name,tr,nslice,sliceorder,refslice,isovox)
-% 
-% Notes:
-% * Face/House info
-%  - dir_path: /data/data2/meta_accumulate/fh/fhXX
-%  - func_name: "fh"
-%  - tr: 1.5
-%  - nslice: 29
-%  - sliceorder: [1:2:29 2:2:29]
-%  - refslice: floor(29/2)
-%  - isovox: [3 3 3]
 
 	% SPM go!
 	spm('Defaults','fMRI');

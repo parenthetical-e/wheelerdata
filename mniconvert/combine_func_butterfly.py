@@ -1,6 +1,6 @@
 """Combine ar* functional data in along their 4th axes.
 
-usage: combined_func_fh datadir
+usage: combined_func_butterfly datadir
 """
 import sys
 import os
@@ -13,15 +13,20 @@ if len(sys.argv[1:]) != 1:
 datadir = sys.argv[1]
 
 # Name the names, then read in the data
-fnames = ["arfh0.nii", "arfh1.nii", "arfh2.nii", "arfh3.nii",
-        "arfh4.nii", "arfh5.nii", "arfh6.nii"]
+fnames = ["arbutterfly0.nii", 
+        "arbutterfly1.nii", 
+        "arbutterfly2.nii", 
+        "arbutterfly3.nii",
+        "arbutterfly4.nii"]
 
 for i, fname in enumerate(fnames):
     if not os.path.exists(os.path.join(datadir, fname)):
         print("Missing {0}".format(fname))
         fnames.pop(i)
-        
+
+# Create the niftis, remove and arn if they do not exist
 niftis = [read_nifti(os.path.join(datadir, fname)) for fname in fnames]
 
 # Combine the nifti objects and write the result
-write_nifti(combine4d(niftis), os.path.join(datadir, "arfh.nii"))
+write_nifti(combine4d(niftis),
+        os.path.join(datadir, "arbutterfly.nii"))

@@ -1,5 +1,5 @@
-"""usage: dcm_to_nifti expname mapname scode"""
-import sys, os, re
+"""usage: dcm_to_nifti expname mapname.json scode"""
+import sys, os, re, json
 from subprocess import Popen, PIPE
 
 
@@ -20,6 +20,18 @@ def _process_exp(exp):
     if exp == "fh":
         mpragename = "mprage"
         boldname = "fh"
+    elif exp == "butterfly":
+        mpragename = "mprage"
+        boldname = "butterfly"
+    elif exp == "clock":
+        mpragename = "mprage"
+        boldname = "clock"
+    elif exp == "polygon":
+        mpragename = "mprage"
+        boldname = "polygon"
+    elif exp == "redgreen":
+        mpragename = "mprage"
+        boldname = "redgreen"
     else:
         raise ValueError("exp name not understood.")
     
@@ -110,11 +122,12 @@ if __name__ == "__main__":
     # Process args
     expname = sys.argv[1]
     mapname = sys.argv[2]
-    scode = int(sys.argv[3])
+    scode = str(sys.argv[3])
     
     # Get the bold map
-    mrimap = eval(open(mapname).read())[scode]
-     
+    # mrimap = eval(open(mapname).read())[scode]
+    mrimap = json.load(open(mapname, "r"))[scode]
+    
     # Use the exp name to get the location (scan)
     # codes of the data
     mpragename, boldname = _process_exp(expname)
@@ -128,11 +141,12 @@ if __name__ == "__main__":
     # or double digit int
 
     # Do ana
-    _dcm2nii_ana("study{0}".format(mprage[0]), "ana", move=True)
+    _dcm2nii_ana(os.path.join(expname+scode, "study{0}".format(mprage[0])), 
+            "ana", move=True)
     
     # Loop over, doing each BOLD (epi) scan.
     for ii, bold in enumerate(bolds):
-        _dcm2nii("study{0}".format(bold), 
+        _dcm2nii(os.path.join(expname+scode, "study{0}".format(bold)), 
                 "{0}{1}".format(expname, ii), 
                 move=True)
 

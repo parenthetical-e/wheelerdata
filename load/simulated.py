@@ -37,7 +37,8 @@ class _NCond(Exp):
         self.trials = np.array(self.trials)
         if durations != None:
             start, stop = durations[0], durations[1]
-            self.durations = [random_integers(start, stop) for _ in self.trials]
+            self.durations = [random_integers(start, stop) for 
+                    _ in self.trials]
         else:
             self.durations = [1, ] * len(self.trials)
             

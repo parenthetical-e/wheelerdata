@@ -3,14 +3,15 @@ import pandas as pd
 from wheelerdata.load.base import Wheelerdata
 
 
-class FH(Wheelerdata):
-    """Face/House data"""
+class Polygon(Wheelerdata):
+    """Polygon data"""
 
     def __init__(self):
-        super(FH, self).__init__()
+        super(Polygon, self).__init__()
         
-        self.scodes = [9, 11, 13, 14, 15, 17, 19, 21, 23, 24, 25, 26, 27, 28]
-        self.name = "fh"
+        self.scodes = [1, 2, 3, 5, 6, 7, 8, 9, 11, 12, 19, 20, 
+                21, 22, 24, 25, 26, 27, 28, 29]
+        self.name = "polygon"
         
         self.datapath = "/data/data2/meta_accumulate/" + self.name
         self.roipath = os.path.join(self.datapath, "roinii")

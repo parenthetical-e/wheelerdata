@@ -89,6 +89,15 @@ class Wheelerdata(object):
         return mpaths
 
 
+    def get_RT_metadata_event_paths(self):
+        mpaths = [os.path.join(
+                self.metapath, "trtime_{1}{0}_rt_event.csv".format(
+                scode, self.name)) for scode in self.scodes]
+        self._exists(mpaths)
+
+        return mpaths
+
+
     def get_metapaths_containing(self, name):
         """Look through all known metadata for the colname,
         return the corresponding metapaths

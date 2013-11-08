@@ -25,7 +25,7 @@ def _get_filt(fd):
     return fd.values()[0]    
 
 
-def create(name, fidl, filterf, nod=True):
+def create(name, fidl, filterf, nod=True, event=False):
     """Use a fild file to create a metadata label table, using the json
     filter file to convert, rename, and reorganize labels as needed.
 
@@ -143,7 +143,7 @@ def create(name, fidl, filterf, nod=True):
     ncol = expdata["final_ncol"]
     fill_tr_gaps(os.path.join(
             os.path.dirname(name), 
-            "trtime_"+os.path.basename(name)), ncol)
+            "trtime_"+os.path.basename(name)), ncol, fill='nan')
     
     # Be SPM compatible?
     if nod:

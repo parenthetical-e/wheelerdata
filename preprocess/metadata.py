@@ -25,7 +25,7 @@ def _get_filt(fd):
     return fd.values()[0]    
 
 
-def create(name, fidl, filterf, nod=True, event=False):
+def create(name, fidl, filterf, nod=True):
     """Use a fild file to create a metadata label table, using the json
     filter file to convert, rename, and reorganize labels as needed.
 

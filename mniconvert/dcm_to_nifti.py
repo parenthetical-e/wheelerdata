@@ -145,7 +145,7 @@ if __name__ == "__main__":
             "ana", move=True)
     
     # Loop over, doing each BOLD (epi) scan.
-    for ii, bold in enumerate(bolds):
+    for ii, bold in enumerate(sorted(bolds)):
         _dcm2nii(os.path.join(expname+scode, "study{0}".format(bold)), 
                 "{0}{1}".format(expname, ii), 
                 move=True)

@@ -9,8 +9,11 @@ class Clock(Wheelerdata):
     def __init__(self):
         super(Clock, self).__init__()
         
-        self.scodes = [4, 5, 7, 8, 9, 10, 11, 13, 14, 15, 16, 
+        self.scodes = [4, 5, 7, 8, 9, 10, 11, 13, 14, 15,
                 17, 18, 19, 20, 21]
+            # Removed 16, was having indeterminate issues
+            # using masks from that dataset - they were
+            # all coming up empty.
         self.name = "clock"
         
         self.datapath = "/data/data2/meta_accumulate/" + self.name

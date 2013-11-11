@@ -9,7 +9,7 @@ for ii=1:size(Ss,2),
     cd(datadir)
 
     meta_ana(datadir)
-    meta_realign(datadir,{'butterfly0' 'butterfly1' 'butterfly2' 'butterfly3' 'butterfly4' 'butterfly5'})
+    meta_realign(datadir,{'butterfly0' 'butterfly1' 'butterfly2' 'butterfly3' 'butterfly4' 'butterfly5' 'butterfly6' 'butterfly7' 'butterfly8' 'butterfly9'})
     meta_func(datadir,'butterfly',2,35,[1:2:35 2:2:35],floor(35/2),[3 3 3])
 end
 

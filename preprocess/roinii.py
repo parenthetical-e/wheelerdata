@@ -8,41 +8,58 @@ import nibabel as nb
 from fmrilearn.preprocess.nii import masknii
 from fmrilearn.load import load_roifile
 
-from wheelerdata.load import fh
-from wheelerdata.load import butterfly
-from wheelerdata.load import clock
-from wheelerdata.load import polygon
-from wheelerdata.load import redgreen
+from wheelerdata.load.fh import FH
+from wheelerdata.load.butterfly import Butterfly
+from wheelerdata.load.clock import Clock
+from wheelerdata.load.polygon import Polygon
+from wheelerdata.load.redgreen import Redgreen
 from multiprocessing import Pool
 
 
 def create(maskname, newname, expname, overwrite=False):
+    """Save all subjects nifti1 datasets to ./roinii for the given mask/ROI name.
+    
+    Parameters
+    ---------
+    maskname :str 
+        A valid ROI name (see my `roi` package at https://github.com/andsoandso/roi
+    newname : str
+        A new name for the roi
+    expname : str
+        A valid `wheelerdata.load.*` instance name
+    """
+
     # Experimental config 
     basepath, path, scodes, datas = None, None, None, None
     if expname == "fh":
-        basepath = fh.get_datapath()
+        fh = FH()
+        basepath = fh.datapath
         paths = fh.get_subject_paths()
-        scodes = fh.get_subject_codes()
+        scodes = fh.scodes
         datas = [os.path.join(path, "arfh.nii") for path in paths]
     elif expname == "butterfly":
-        basepath = butterfly.get_datapath()
+        butterfly = Butterfly()
+        basepath = butterfly.datapath
         paths = butterfly.get_subject_paths()
-        scodes = butterfly.get_subject_codes()
+        scodes = butterfly.scodes
         datas = [os.path.join(path, "arbutterfly.nii") for path in paths]
     elif expname == "clock":
-        basepath = clock.get_datapath()
+        clock = Clock()
+        basepath = clock.datapath
         paths = clock.get_subject_paths()
-        scodes = clock.get_subject_codes()
+        scodes = clock.scodes
         datas = [os.path.join(path, "arclock.nii") for path in paths]
     elif expname == "polygon":
-        basepath = polygon.get_datapath()
+        polygon = Polygon()
+        basepath = polygon.datapath
         paths = polygon.get_subject_paths()
-        scodes = polygon.get_subject_codes()
+        scodes = polygon.scodes
         datas = [os.path.join(path, "arpolygon.nii") for path in paths]
     elif expname == "redgreen":
-        basepath = redgreen.get_datapath()
+        redgreen = Redgreen()
+        basepath = redgreen.datapath
         paths = redgreen.get_subject_paths()
-        scodes = redgreen.get_subject_codes()
+        scodes = redgreen.scodes
         datas = [os.path.join(path, "arredgreen.nii") for path in paths]    
     else:
         raise ValueError("expname ({0}) not valid".format(expname))
@@ -65,7 +82,8 @@ def create(maskname, newname, expname, overwrite=False):
 if __name__ == '__main__':
     """Command line invocation setup."""    
 
-    ncore = 1
+    ncore = 8
+    overwrite = False
 
     # Process argv
     if len(sys.argv[1:]) != 2:
@@ -75,13 +93,14 @@ if __name__ == '__main__':
 
     # Go, multpprocess on request    
     if ncore == 1:
-        [create(roiname, newname, expname) for
+        [create(roiname, newname, expname, overwrite) for
                 roiname, newname in zip(roinames, newnames)] 
     elif ncore > 1:
         p = Pool(ncore)
         for roiname, newname in zip(roinames, newnames):
-            p.apply_async(create, args = (roiname, newname, expname))
+            p.apply_async(create, args = (roiname, newname, expname, overwrite))
         p.close()
         p.join()
     else:
         raise ValueError("ncore must be 1 or greater")
+

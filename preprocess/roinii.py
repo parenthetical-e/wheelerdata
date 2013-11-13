@@ -21,7 +21,7 @@ def create(maskname, newname, expname, overwrite=False):
     
     Parameters
     ---------
-    maskname :str 
+    maskname : str 
         A valid ROI name (see my `roi` package at https://github.com/andsoandso/roi
     newname : str
         A new name for the roi
@@ -30,39 +30,23 @@ def create(maskname, newname, expname, overwrite=False):
     """
 
     # Experimental config 
-    basepath, path, scodes, datas = None, None, None, None
     if expname == "fh":
-        fh = FH()
-        basepath = fh.datapath
-        paths = fh.get_subject_paths()
-        scodes = fh.scodes
-        datas = [os.path.join(path, "arfh.nii") for path in paths]
+        data = FH()
     elif expname == "butterfly":
-        butterfly = Butterfly()
-        basepath = butterfly.datapath
-        paths = butterfly.get_subject_paths()
-        scodes = butterfly.scodes
-        datas = [os.path.join(path, "arbutterfly.nii") for path in paths]
+        data = Butterfly()
     elif expname == "clock":
-        clock = Clock()
-        basepath = clock.datapath
-        paths = clock.get_subject_paths()
-        scodes = clock.scodes
-        datas = [os.path.join(path, "arclock.nii") for path in paths]
+        data = Clock()
     elif expname == "polygon":
-        polygon = Polygon()
-        basepath = polygon.datapath
-        paths = polygon.get_subject_paths()
-        scodes = polygon.scodes
-        datas = [os.path.join(path, "arpolygon.nii") for path in paths]
+        data = Polygon()
     elif expname == "redgreen":
-        redgreen = Redgreen()
-        basepath = redgreen.datapath
-        paths = redgreen.get_subject_paths()
-        scodes = redgreen.scodes
-        datas = [os.path.join(path, "arredgreen.nii") for path in paths]    
+        data = Redgreen()
     else:
         raise ValueError("expname ({0}) not valid".format(expname))
+
+    basepath = data.datapath
+    paths = data.get_subject_paths()
+    scodes = data.scodes
+    datas = [os.path.join(path, "ar{0}.nii".format(expname)) for path in paths]
 
     # then create the roi data for each S.
     for s, data in zip(scodes, datas):
@@ -77,12 +61,17 @@ def create(maskname, newname, expname, overwrite=False):
             continue
         else:
             masknii(maskname, data, save=saveas)
+   
+    # Log success
+    f = open("{0}_roinii.log".format(expname), "a")
+    f.write("{0}:{1}\n".format(maskname, newname))
+    f.close()
 
 
 if __name__ == '__main__':
     """Command line invocation setup."""    
 
-    ncore = 8
+    ncore = 3
     overwrite = False
 
     # Process argv
@@ -90,8 +79,14 @@ if __name__ == '__main__':
         raise ValueError("Two arguments are required.")
     roinames, newnames = load_roifile(sys.argv[1])
     expname = sys.argv[2]
+   
+    # Cleaup success log from previous runs
+    try:
+        os.remove("{0}_roinii.log".format(expname))
+    except OSError:
+        pass
 
-    # Go, multpprocess on request    
+    # Go, multpprocess on request
     if ncore == 1:
         [create(roiname, newname, expname, overwrite) for
                 roiname, newname in zip(roinames, newnames)] 

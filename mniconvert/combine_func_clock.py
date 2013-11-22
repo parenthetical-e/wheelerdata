@@ -13,10 +13,10 @@ if len(sys.argv[1:]) != 1:
 datadir = sys.argv[1]
 
 # Name the names, then read in the data
-fnames = ["arclock0.nii", 
-        "arclock1.nii", 
-        "arclock2.nii", 
-        "arclock3.nii"]
+fnames = ["warclock0.nii", 
+        "warclock1.nii", 
+        "warclock2.nii", 
+        "warclock3.nii"]
 
 for i, fname in enumerate(fnames):
     if not os.path.exists(os.path.join(datadir, fname)):
@@ -27,4 +27,4 @@ niftis = [read_nifti(os.path.join(datadir, fname)) for fname in fnames]
 
 # Combine the nifti objects and write the result
 write_nifti(combine4d(niftis),
-        os.path.join(datadir, "arclock.nii"))
+        os.path.join(datadir, "warclock.nii"))

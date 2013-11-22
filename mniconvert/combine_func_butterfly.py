@@ -14,16 +14,16 @@ datadir = sys.argv[1]
 
 # Name the names, then read in the data
 fnames = [
-        "arbutterfly0.nii", 
-        "arbutterfly1.nii", 
-        "arbutterfly2.nii", 
-        "arbutterfly3.nii",
-        "arbutterfly4.nii",
-        "arbutterfly5.nii",
-        "arbutterfly6.nii",
-        "arbutterfly7.nii",
-        "arbutterfly8.nii",
-        "arbutterfly9.nii"]
+        "warbutterfly0.nii", 
+        "warbutterfly1.nii", 
+        "warbutterfly2.nii", 
+        "warbutterfly3.nii",
+        "warbutterfly4.nii",
+        "warbutterfly5.nii",
+        "warbutterfly6.nii",
+        "warbutterfly7.nii",
+        "warbutterfly8.nii",
+        "warbutterfly9.nii"]
 
 for i, fname in enumerate(fnames):
     if not os.path.exists(os.path.join(datadir, fname)):
@@ -42,4 +42,4 @@ for fname in fnames:
 
 # Combine the nifti objects and write the result
 write_nifti(combine4d(niftis),
-        os.path.join(datadir, "arbutterfly.nii"))
+        os.path.join(datadir, "warbutterfly.nii"))

@@ -5,7 +5,8 @@ Usage: roinii roifile expname
 import re, os, sys
 import nibabel as nb
 
-from fmrilearn.preprocess.nii import masknii
+import roi
+#from fmrilearn.preprocess.nii import masknii
 from fmrilearn.load import load_roifile
 
 from wheelerdata.load.fh import FH
@@ -22,7 +23,7 @@ def create(maskname, newname, expname, overwrite=False):
     Parameters
     ---------
     maskname : str 
-        A valid ROI name (see my `roi` package at https://github.com/andsoandso/roi
+        A valid ROI name (see my `roi` package at `https://github.com/andsoandso/roi`
     newname : str
         A new name for the roi
     expname : str
@@ -46,22 +47,36 @@ def create(maskname, newname, expname, overwrite=False):
     basepath = data.datapath
     paths = data.get_subject_paths()
     scodes = data.scodes
-    datas = [os.path.join(path, "ar{0}.nii".format(expname)) for path in paths]
+    datas = [os.path.join(path,"war{0}.nii".format(expname)) for path in paths]
 
     # then create the roi data for each S.
     for s, data in zip(scodes, datas):
         saveas = os.path.join(
                 basepath, 'roinii', "{0}_{1}.nii.gz".format(newname, s))
 
-        if overwrite:
-            print("Overwriting {0}.".format(saveas))
-            masknii(maskname, data, save=saveas)
-        elif os.path.exists(saveas):
+        if os.path.exists(saveas) and not overwrite:
             print("{0} exists, moving on.".format(saveas))
             continue
-        else:
-            masknii(maskname, data, save=saveas)
-   
+
+        mask = roi.atlas.get_roi('HarvardOxford', maskname)
+        nii = roi.io.read_nifti(data)
+        maskednii = roi.pre.mask(nii, mask, standard=True)
+
+        # (Potentially expensive) sanity checks
+        assert sum([nz.size for nz in mask.get_data().nonzero()]) != 0, ("Mask" 
+                " {0} was empty".format(maskname))
+        assert sum([nz.size for nz in nii.get_data().nonzero()]) != 0, ("Nifiti1" 
+                " {0} was empty".format(maskname))
+
+        # It's possiblethat the ROI covers an area outside the 
+        # functional acquisition window.  Proceed but warn.
+        if sum([nz.size for nz in maskednii.get_data().nonzero()]) == 0:
+            print("{0} maskednii was empty. Nothing to write.".format(maskname))
+            continue
+
+        print("Writing {0}".format(saveas))
+        roi.io.write_nifti(maskednii, saveas)
+    
     # Log success
     f = open("{0}_roinii.log".format(expname), "a")
     f.write("{0}:{1}\n".format(maskname, newname))
@@ -71,7 +86,7 @@ def create(maskname, newname, expname, overwrite=False):
 if __name__ == '__main__':
     """Command line invocation setup."""    
 
-    ncore = 3
+    ncore = 1
     overwrite = False
 
     # Process argv

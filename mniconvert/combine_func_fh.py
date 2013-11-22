@@ -13,8 +13,8 @@ if len(sys.argv[1:]) != 1:
 datadir = sys.argv[1]
 
 # Name the names, then read in the data
-fnames = ["arfh0.nii", "arfh1.nii", "arfh2.nii", "arfh3.nii",
-        "arfh4.nii", "arfh5.nii", "arfh6.nii"]
+fnames = ["warfh0.nii", "warfh1.nii", "warfh2.nii", "warfh3.nii",
+        "warfh4.nii", "warfh5.nii", "warfh6.nii"]
 
 for i, fname in enumerate(fnames):
     if not os.path.exists(os.path.join(datadir, fname)):
@@ -24,4 +24,4 @@ for i, fname in enumerate(fnames):
 niftis = [read_nifti(os.path.join(datadir, fname)) for fname in fnames]
 
 # Combine the nifti objects and write the result
-write_nifti(combine4d(niftis), os.path.join(datadir, "arfh.nii"))
+write_nifti(combine4d(niftis), os.path.join(datadir, "warfh.nii"))

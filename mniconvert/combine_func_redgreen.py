@@ -13,12 +13,12 @@ if len(sys.argv[1:]) != 1:
 datadir = sys.argv[1]
 
 # Name the names, then read in the data
-fnames = ["arredgreen0.nii", 
-        "arredgreen1.nii", 
-        "arredgreen2.nii", 
-        "arredgreen3.nii",
-        "arredgreen4.nii", 
-        "arredgreen5.nii"]
+fnames = ["warredgreen0.nii", 
+        "warredgreen1.nii", 
+        "warredgreen2.nii", 
+        "warredgreen3.nii",
+        "warredgreen4.nii", 
+        "warredgreen5.nii"]
 
 # Create the niftis, remove and arn if they do not exist
 for i, fname in enumerate(fnames):
@@ -30,4 +30,4 @@ niftis = [read_nifti(os.path.join(datadir, fname)) for fname in fnames]
 
 # Combine the nifti objects and write the result
 write_nifti(combine4d(niftis),
-        os.path.join(datadir, "arredgreen.nii"))
+        os.path.join(datadir, "warredgreen.nii"))

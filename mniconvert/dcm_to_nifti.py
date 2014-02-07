@@ -32,6 +32,9 @@ def _process_exp(exp):
     elif exp == "redgreen":
         mpragename = "mprage"
         boldname = "redgreen"
+    elif exp == "biasbox":
+        mpragename = "mprage"
+        boldname = "biasbox"
     else:
         raise ValueError("exp name not understood.")
     

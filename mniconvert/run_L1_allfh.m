@@ -14,7 +14,6 @@ for ii=1:size(Ss,2),
     disp('Calculating L1 motor')
     savedir = [Ss{ii} '_motor']
     [stat, meSs] = rmdir(fullfile(datadir,savedir), 's')  
-            %% Force removal of old runs 
     meta_L1(datadir,savedir,'warfh.nii', ...
         ['fidl/nod_' NODS{ii} '_motor_EF.mat'],'rp_fh0.txt',1.5,29,0)
 
@@ -22,7 +21,6 @@ for ii=1:size(Ss,2),
     disp('Calculating L1 noise')
     savedir = [Ss{ii} '_noise']
     [stat, meSs] = rmdir(fullfile(datadir,savedir), 's')  
-            %% Force removal of old runs 
     meta_L1(datadir,savedir,'warfh.nii', ...
         ['fidl/nod_' NODS{ii} '_noise_corr_EF.mat'],'rp_fh0.txt',1.5,29,0)
 
@@ -30,7 +28,6 @@ for ii=1:size(Ss,2),
     disp('Calculating L1 reaction time')
     savedir = [Ss{ii} '_rt']
     [stat, meSs] = rmdir(fullfile(datadir,savedir), 's')  
-            %% Force removal of old runs 
     meta_L1(datadir,savedir,'warfh.nii', ...
         ['fidl/nod_' NODS{ii} '_RT_corr_EF.mat'],'rp_fh0.txt',1.5,29,0)
 end

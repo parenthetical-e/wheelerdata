@@ -14,6 +14,7 @@ from wheelerdata.load.butterfly import Butterfly
 from wheelerdata.load.clock import Clock
 from wheelerdata.load.polygon import Polygon
 from wheelerdata.load.redgreen import Redgreen
+from wheelerdata.load.biasbox import Biasbox
 from multiprocessing import Pool
 
 
@@ -41,6 +42,8 @@ def create(maskname, newname, expname, overwrite=False):
         data = Polygon()
     elif expname == "redgreen":
         data = Redgreen()
+    elif expname == "biasbox":
+        data = Biasbox()
     else:
         raise ValueError("expname ({0}) not valid".format(expname))
 

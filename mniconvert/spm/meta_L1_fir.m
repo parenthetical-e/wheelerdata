@@ -14,7 +14,7 @@ function meta_L1_fir(basepath,savename,func_name,nod_name,movement_name,tr,nslic
 % <event> If is 1, set durations to 0. If 0, use nod_* durations.
 
 	% Intial var setup
-    firwindow = 11;
+    firwindow = 15;
 	old_path = pwd;
 	data_path = fullfile(basepath)
     
@@ -62,7 +62,7 @@ function meta_L1_fir(basepath,savename,func_name,nod_name,movement_name,tr,nslic
 		onsets{jj}
         jobs{2}.stats{1}.fmri_spec.sess(1).cond(jj).name = names{jj};
         jobs{2}.stats{1}.fmri_spec.sess(1).cond(jj).onset = onsets{jj};
-        jobs{2}.stats{1}.fmri_spec.sess(1).cond(jj).duration = 5;
+        jobs{2}.stats{1}.fmri_spec.sess(1).cond(jj).duration = 1;
     end
 
     jobs{2}.stats{1}.fmri_spec.sess.hpf = 128;

@@ -1,5 +1,5 @@
 #! /usr/local/bin/python
-"""A program that takes a .fidl file from the Face/House dataset and converts 
+"""A program that takes a .fidl file from a Wheeler lab dataset and converts 
 then to a csv file suitable for import and use as labels in a
 sklearn classfication experiemnt, and also produces a .mat file suitable
 for use in SPM.

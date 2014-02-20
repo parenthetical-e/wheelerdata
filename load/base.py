@@ -7,7 +7,8 @@ class Wheelerdata(object):
 
     Usage 
     -----
-    To use subclass then hardcode the following attrs inside the top-level __init__() call,
+    To use subclass then hardcode the following attrs inside 
+    the top-level __init__() call,
 
             self.scodes = None
             self.name = None
@@ -24,9 +25,9 @@ class Wheelerdata(object):
                 self.scodes = [9, 11, 13, 14, 15, 17, 19, 
                         21, 23, 24, 25, 26, 27, 28]
                 self.name = 'fh'
-                self.datapath = "/data/data2/meta_accumulate/" + self.name
-                self.roipath = os.path.join(DATAPATH, "roinii")
-                self.metapath = os.path.join(DATAPATH, "fidl")
+                self.datapath = '/data/data2/meta_accumulate/' + self.name
+                self.roipath = os.path.join(DATAPATH, 'roinii')
+                self.metapath = os.path.join(DATAPATH, 'fidl')
     Note
     ----
     When posssible the get_* methods check for file existence before 

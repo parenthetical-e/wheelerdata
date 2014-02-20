@@ -13,8 +13,10 @@ from fmrilearn.preprocess.labels import reprocess_targets
 from fmrilearn.preprocess.labels import create_y
 
 
-def _make_accumulator_array(y, index, drift_noise=None, 
-            step_noise=None):
+def _make_accumulator_array(y, index, 
+            drift_noise=False, step_noise=False, z_noise=False,
+            drift_noise_param=None, step_noise_param=None,
+            z_noise_param=None):
     """Make an array of accumulator trials, adding noise if requested."""
     
     y = np.asarray(y, dtype=np.int)
@@ -22,11 +24,14 @@ def _make_accumulator_array(y, index, drift_noise=None,
     if index.shape != y.shape:
         raise ValueError("index and y do not match")
 
-    if drift_noise == None:
-        drift_noise = {"loc": 0, "scale" : 0.5}
+    if drift_noise_param == None:
+        drift_noise_param = {"loc": 0, "scale" : 0.5}
 
-    if step_noise == None:
-        step_noise = {"loc" : 0, "scale" : 0.2, size : 1}
+    if step_noise_param == None:
+        step_noise_param = {"loc" : 0, "scale" : 0.2, "size" : 1}
+    
+    if z_noise_param == None:
+        z_noise_param = {"low" : 0.01, "high" : 0.5, "size" : 1}
 
     accumlator = np.zeros_like(y, dtype=np.float)
     for i in np.unique(index):
@@ -41,15 +46,19 @@ def _make_accumulator_array(y, index, drift_noise=None,
         if condi[0] > 0:
             drift = 1  ## Does nothing
             if drift_noise:
-                drift = np.abs(np.random.normal(**drift_noise))
-
+                drift = np.abs(np.random.normal(**drift_noise_param))
+        
             stepn = np.zeros(t) ## Does nothing
             if step_noise:
-                stepn = np.random.normal(**step_noise)
+                stepn = np.random.normal(**step_noise_param)
+            
+            zn = 0.0
+            if z_noise:
+                zn = np.random.uniform(**z_noise_param)
 
             # Create the ramping (i.e. accumlator) signal for
             # this trial
-            ramp = (drift * (np.arange(1,t+1) / np.float(t))) + stepn
+            ramp = (drift * np.linspace(zn, 1, t)) + stepn
             accumlator[mask] = ramp
 
     return np.asarray(accumlator)
@@ -89,7 +98,8 @@ def _make_decision_array(y, index):
 def make_bold(cond, index, wheelerdata, filtfile=None, TR=2, trname="TR",
         noise_f=white, hrf_f=None, hrf_params=None, 
         n_features=10, n_univariate=None, n_accumulator=None, n_decision=None, 
-        n_noise=None, drift_noise=False, step_noise=False):
+        n_noise=None, drift_noise=False, step_noise=False, z_noise=False,
+        drift_noise_param=None, step_noise_param=None, z_noise_param=None):
 
     # ----
     # Process args for feature composition
@@ -126,7 +136,8 @@ def make_bold(cond, index, wheelerdata, filtfile=None, TR=2, trname="TR",
         # make accumulator and decision traces
         if n_accumulator > 0:
             data["accumulator"] = _make_accumulator_array(
-                    y, yindex, drift_noise, step_noise)
+                    y, yindex, drift_noise, step_noise, z_noise,
+                    drift_noise_param, step_noise_param, z_noise_param)
         if n_decision > 0:
             data["decision"] = _make_decision_array(y, yindex)
 
@@ -211,6 +222,33 @@ if __name__ == "__main__":
         TR=2, noise_f=lambda N, prng: (np.zeros(N), prng), hrf_f=None, hrf_params=None, 
         n_features=1, n_univariate=None, n_accumulator=1, n_decision=None, 
         n_noise=None, drift_noise=False, step_noise=False)
+    save_test_results(test_name, Xs, ys, yindices, scodes)
+    
+    test_name = "drift_noise1f"
+    print(test_name)
+    Xs, ys, yindices = make_bold("rt", "trialcount", clockdata, 
+        filtfile="/data/data2/meta_accumulate/clock/clock_filter_rt_event.json", 
+        TR=2, noise_f=lambda N, prng: (np.zeros(N), prng), hrf_f=None, hrf_params=None, 
+        n_features=1, n_univariate=None, n_accumulator=1, n_decision=None, 
+        n_noise=None, drift_noise=True, step_noise=False)
+    save_test_results(test_name, Xs, ys, yindices, scodes)
+    
+    test_name = "step_noise1f"
+    print(test_name)
+    Xs, ys, yindices = make_bold("rt", "trialcount", clockdata, 
+        filtfile="/data/data2/meta_accumulate/clock/clock_filter_rt_event.json", 
+        TR=2, noise_f=lambda N, prng: (np.zeros(N), prng), hrf_f=None, hrf_params=None, 
+        n_features=1, n_univariate=None, n_accumulator=1, n_decision=None, 
+        n_noise=None, drift_noise=False, step_noise=True)
+    save_test_results(test_name, Xs, ys, yindices, scodes)
+
+    test_name = "z_noise1f"
+    print(test_name)
+    Xs, ys, yindices = make_bold("rt", "trialcount", clockdata, 
+        filtfile="/data/data2/meta_accumulate/clock/clock_filter_rt_event.json", 
+        TR=2, noise_f=lambda N, prng: (np.zeros(N), prng), hrf_f=None, hrf_params=None, 
+        n_features=1, n_univariate=None, n_accumulator=1, n_decision=None, 
+        n_noise=None, drift_noise=False, step_noise=False, z_noise=True)
     save_test_results(test_name, Xs, ys, yindices, scodes)
 
     test_name = "decision1f"

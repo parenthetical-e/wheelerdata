@@ -119,7 +119,7 @@ def make_bold(cond, index, wheelerdata, filtfile=None, TR=2, trname="TR",
         if filtfile is not None:
             data = reprocess_targets(filtfile, data, np.nan, ("TR", "trialcount"))
         
-        # use the metadata to generate y, and the trial index
+        # use the metadata to generate y, and the trial index, yindex
         y = create_y(data[cond])
         yindex = data[index]
     
@@ -240,12 +240,12 @@ if __name__ == "__main__":
         n_noise=1, drift_noise=False, step_noise=False)
     save_test_results(test_name, Xs, ys, yindices, scodes)
 
-#    test_name = "nonoise4f"
-#    print(test_name)
-#    Xs, ys, yindices = make_bold("rt", "trialcount", clockdata, 
-#        filtfile="/data/data2/meta_accumulate/clock/clock_filter_rt_event.json", 
-#        TR=2, noise_f=lambda N, prng: (np.zeros(N), prng), hrf_f=None, hrf_params=None, 
-#        n_features=4, n_univariate=1, n_accumulator=1, n_decision=1, 
-#        n_noise=1, drift_noise=False, step_noise=False)
-#    save_test_results(test_name, Xs, ys, yindices, scodes)
+    test_name = "withnoise4f"
+    print(test_name)
+    Xs, ys, yindices = make_bold("rt", "trialcount", clockdata, 
+        filtfile="/data/data2/meta_accumulate/clock/clock_filter_rt_event.json", 
+        TR=2, noise_f=white, hrf_f=None, hrf_params=None, 
+        n_features=4, n_univariate=1, n_accumulator=1, n_decision=1, 
+        n_noise=1, drift_noise=False, step_noise=False)
+    save_test_results(test_name, Xs, ys, yindices, scodes)
 

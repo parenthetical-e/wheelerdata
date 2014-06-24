@@ -9,7 +9,7 @@ class Biasbox(Wheelerdata):
     def __init__(self):
         super(Biasbox, self).__init__()
         
-        self.scodes = [8, 10, 11, 13, 15, 16, 17, 18, 19, 
+        self.scodes = [10, 11, 13, 15, 16, 17, 18, 19, 
                 20, 21, 22, 23, 24, 26, 27, 29, 30, 31]
         self.name = "biasbox"
         

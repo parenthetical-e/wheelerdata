@@ -3,11 +3,11 @@ import pandas as pd
 
 
 class Wheelerdata(object):
-    """A skeleton class for Wheelerdata.  
+    """A skeleton class for Wheelerdata.
 
-    Usage 
+    Usage
     -----
-    To use subclass then hardcode the following attrs inside 
+    To use subclass then hardcode the following attrs inside
     the top-level __init__() call,
 
             self.scodes = None
@@ -21,8 +21,8 @@ class Wheelerdata(object):
         class FH(Wheelerdata):
             def __init__(self):
                 super(FH, self).__init__()
-                
-                self.scodes = [9, 11, 13, 14, 15, 17, 19, 
+
+                self.scodes = [9, 11, 13, 14, 15, 17, 19,
                         21, 23, 24, 25, 26, 27, 28]
                 self.name = 'fh'
                 self.datapath = '/data/data2/meta_accumulate/' + self.name
@@ -30,8 +30,8 @@ class Wheelerdata(object):
                 self.metapath = os.path.join(DATAPATH, 'fidl')
     Note
     ----
-    When posssible the get_* methods check for file existence before 
-    returning.  Just becuase a file exists doesn't mean it's valid, 
+    When posssible the get_* methods check for file existence before
+    returning.  Just becuase a file exists doesn't mean it's valid,
     complete, or correct.
     """
 
@@ -43,7 +43,7 @@ class Wheelerdata(object):
         self.datapath = None
         self.roipath = None
         self.metapath = None
-
+        self.TR = None
 
     def _exists(self, files):
         for fi in files:
@@ -56,7 +56,7 @@ class Wheelerdata(object):
 
 
     def get_subject_paths(self):
-        spaths = [os.path.join(self.datapath, sdir) for 
+        spaths = [os.path.join(self.datapath, sdir) for
                 sdir in self.get_subject_dirs()]
         self._exists(spaths)
 
@@ -65,7 +65,7 @@ class Wheelerdata(object):
 
     def get_roi_data_paths(self, roi):
         dpaths = [os.path.join(
-                self.roipath, roi + "_{0}.nii.gz".format(scode)) for 
+                self.roipath, roi + "_{0}.nii.gz".format(scode)) for
                 scode in self.scodes]
         self._exists(dpaths)
 
@@ -105,7 +105,7 @@ class Wheelerdata(object):
 
         Note
         ----
-        Metadata get_* methods are searched in the following order.  
+        Metadata get_* methods are searched in the following order.
         The first match for colname is the one used.
             Search order:
             1. get_RT_metadata_paths(),

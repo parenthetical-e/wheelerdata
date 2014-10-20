@@ -17,3 +17,13 @@ class FH(Wheelerdata):
         self.metapath = os.path.join(self.datapath, "fidl")
         self.TR = 1.5
 
+
+class SimAccumFH(FH):
+    """Simulated accumulator Face/House data"""
+
+    def __init__(self):
+        super(SimAccumFH, self).__init__()
+
+        self.datapath = "/data/data2/meta_accumulate/" + self.name
+        self.roipath = os.path.join(self.datapath, "simnii")
+        self.metapath = os.path.join(self.datapath, "fidl")

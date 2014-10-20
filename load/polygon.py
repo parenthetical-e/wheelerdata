@@ -20,3 +20,12 @@ class Polygon(Wheelerdata):
         self.metapath = os.path.join(self.datapath, "fidl")
         self.TR = 2.0
 
+        
+class SimAccumPolygon(Polygon):
+    """Simulated accumulator Polygon data"""
+    def __init__(self):
+        super(SimAccumPolygon, self).__init__()
+        
+        self.datapath = "/data/data2/meta_accumulate/" + self.name
+        self.roipath = os.path.join(self.datapath, "simnii")
+        self.metapath = os.path.join(self.datapath, "fidl")

@@ -8,7 +8,11 @@ class Butterfly(Wheelerdata):
     def __init__(self):
         super(Butterfly, self).__init__()
 
-        self.scodes = [4, 5, 7, 17, 18, 19, 20, 21, 22, 23, 25, 26, 30]
+        self.scodes = [4, 5, 7, 17, 18, 19, 21, 22, 23, 25, 26, 30]
+        # self.scodes = [4, 5, 7, 17, 18, 19, 20, 21, 22, 23, 25, 26, 30]
+        # S20's data was corrupted in roinii and I don't have
+        # access to the orignal nii to recreate it.
+
         self.name = "butterfly"
 
         self.datapath = "/data/data2/meta_accumulate/" + self.name
